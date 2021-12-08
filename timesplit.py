@@ -16,7 +16,12 @@ with open('stampsfromatted.txt') as f:
            newAudio = newAudio[var1:var2]
            output = "./rozsekane/ATCtoPilot/{}.wav".format(x)
            newAudio.export(output, format="wav")
-       elif line.startswith('AP1'):
+
+x=0        
+
+with open('stampsfromatted.txt') as f:
+   for line in f:       
+       if line.startswith('AP1'):
            linez = next(f)
            x=x+1
            var1, var2 = linez.split()

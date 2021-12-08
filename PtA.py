@@ -10,7 +10,7 @@ x = 0
 
 for i in range (0,10000):
     x=x+1
-    nazov_suboru = "./rozsekane/ATCtoPilot/{}.wav".format(x)
+    nazov_suboru = "./rozsekane/PilottoATC/{}.wav".format(x)
     snd = parselmouth.Sound(nazov_suboru)
     plt.figure()
     plt.plot(snd.xs(), snd.values.T)
@@ -26,7 +26,8 @@ for i in range (0,10000):
     plt.xlim([snd_part.xmin, snd_part.xmax])
     plt.xlabel("time [s]")
     plt.ylabel("amplitude")
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/fqpert{}.png".format(x))
+    #plt.show()
+    plt.savefig("./rozsekane/PilottoATC/grafy/fqpert{}.png".format(x))
     
     def draw_spectrogram(spectrogram, dynamic_range=70):
         X, Y = spectrogram.x_grid(), spectrogram.y_grid()
@@ -51,7 +52,7 @@ for i in range (0,10000):
     draw_intensity(intensity)
     plt.xlim([snd.xmin, snd.xmax])
     #plt.show()
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/int{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/int{}.png".format(x))
     
     def draw_pitch(pitch):
         # Extract selected pitch contour, and
@@ -76,13 +77,5 @@ for i in range (0,10000):
     draw_pitch(pitch)
     plt.xlim([snd.xmin, snd.xmax])
     #plt.show()
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/fund{}.png".format(x))
-    
-    # labels = ["1"]
-    # plt.figure()
-    # plt.boxplot(intensity)
-    # plt.xticks(x, labels, rotation='vertical')
-    # plt.show()
-    
-
+    plt.savefig("./rozsekane/PilottoATC/grafy/fund{}.png".format(x))
 
