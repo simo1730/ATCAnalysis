@@ -19,6 +19,7 @@ for i in range (0,10000):
     plt.xlim([snd.xmin, snd.xmax])
     plt.xlabel("time [s]")
     plt.ylabel("amplitude")
+    # plt.show()
     plt.savefig("./rozsekane/ATCtoPilot/grafy/fqpert{}.png".format(x))
     
     def make_labels(value, boxplot):
@@ -67,9 +68,6 @@ for i in range (0,10000):
         # for flier in fly.get_ydata():
             # ax.text(1 + xoff, flier,
                     # 'Flier = {:6.3g}'.format(flier), va='center')
-    
-    
-    
     
     def draw_spectrogram(spectrogram, dynamic_range=70):
         X, Y = spectrogram.x_grid(), spectrogram.y_grid()
@@ -129,8 +127,6 @@ for i in range (0,10000):
     #plt.show()
     plt.savefig("./rozsekane/ATCtoPilot/grafy/fund{}.png".format(x))
     
-    
-    
     pitch_values = pitch.selected_array['frequency']
     pitch_values = pitch_values[pitch_values != 0]
     plt.figure()
@@ -142,13 +138,3 @@ for i in range (0,10000):
     # plt.show()
     plt.savefig("./rozsekane/ATCtoPilot/grafy/BPfund{}.png".format(x))
     
-
-
-
-
-
-    
-    
-    
-
-

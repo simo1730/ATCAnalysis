@@ -92,7 +92,7 @@ for i in range (0,10000):
     draw_intensity(intensity)
     plt.xlim([snd.xmin, snd.xmax])
     #plt.show()
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/int{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/int{}.png".format(x))
     plt.figure()
     fig, value = plt.subplots()
     boxplot = value.boxplot(intensity.values.T, 1)
@@ -100,7 +100,7 @@ for i in range (0,10000):
     plt.grid(False)
     plt.ylim(30,100)
     # plt.show()
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/BPint{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/BPint{}.png".format(x))
     
     def draw_pitch(pitch):
         # Extract selected pitch contour, and
@@ -117,7 +117,7 @@ for i in range (0,10000):
     
     pre_emphasized_snd = snd.copy()
     pre_emphasized_snd.pre_emphasize()
-    spectrogram = pre_emphasized_snd.to_spectrogram(window_length=0.03, maximum_frequency=8000)
+    spectrogram = pre_emphasized_snd.to_spectrogram(window_length=0.03, maximum_frequency=10000)
     
     plt.figure()
     draw_spectrogram(spectrogram)
@@ -134,7 +134,7 @@ for i in range (0,10000):
     boxplot = value.boxplot(pitch_values.T)
     make_labels(value, boxplot)
     plt.grid(False)
-    plt.ylim(0)
+    plt.ylim(0, 400)
     # plt.show()
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/BPfund{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/BPfund{}.png".format(x))
 
