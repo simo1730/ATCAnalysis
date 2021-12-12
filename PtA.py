@@ -10,7 +10,7 @@ sns.set()
 plt.rcParams['figure.dpi'] = 100 
 x = 0
 
-for i in range (0,10000):
+for i in range (0,1):
     x=x+1
     nazov_suboru = "./rozsekane/PilottoATC/{}.wav".format(x)
     snd = parselmouth.Sound(nazov_suboru)
@@ -25,17 +25,16 @@ for i in range (0,10000):
     def make_labels(value, boxplot):
 
         # Grab the relevant Line2D instances from the boxplot dictionary
-        iqr = boxplot['boxes'][0]
+        boxes = boxplot['boxes'][0]
         caps = boxplot['caps']
         med = boxplot['medians'][0]
-        fly = boxplot['fliers'][0]
 
         # The x position of the median line
         xpos = med.get_xdata()
 
         # Lets make the text have a horizontal offset which is some 
         # fraction of the width of the box
-        xoff = 0.10 * (xpos[1] - xpos[0])
+        xoff = 0.8 * (xpos[1] - xpos[0])
 
         # The x position of the labels
         xlabel = xpos[1] + xoff
@@ -45,30 +44,26 @@ for i in range (0,10000):
 
         # The 25th and 75th percentiles are found from the
         # top and bottom (max and min) of the box
-        pc25 = iqr.get_ydata().min()
-        pc75 = iqr.get_ydata().max()
+        pc25 = boxes.get_ydata().min()
+        pc75 = boxes.get_ydata().max()
 
         # The caps give the vertical position of the ends of the whiskers
         capbottom = caps[0].get_ydata()[0]
         captop = caps[1].get_ydata()[0]
 
         # Make some labels on the figure using the values derived above
-        value.text(xlabel, median,
-                'Median = {:10g}'.format(median), va='center')
-        value.text(xlabel, pc25,
-                'Spodny percentil = {:10g}'.format(pc25), va='center')
-        value.text(xlabel, pc75,
-                'Vrchny percentil = {:10g}'.format(pc75), va='center')
+        value.text(xlabel + 6.3*xoff, median,
+                'Median = {:6.3g}'.format(median), va='center')
+        value.text(xlabel + 9*xoff, pc25,
+                'Spodny percentil = {:6.3g}'.format(pc25), va='center')
+        value.text(xlabel + 3*xoff, pc75,
+                'Vrchny percentil = {:6.3g}'.format(pc75), va='center')
         value.text(xlabel, capbottom,
-                'Spodok = {:10g}'.format(capbottom), va='center')
-        value.text(xlabel, captop,
-                'Strop = {:10g}'.format(captop), va='center')
-
-        # Many fliers, so we loop over them and create a label for each one
-        # for flier in fly.get_ydata():
-            # ax.text(1 + xoff, flier,
-                    # 'Flier = {:6.3g}'.format(flier), va='center')
+                'Spodok = {:6.3g}'.format(capbottom), va='center')
+        value.text(xlabel + 12*xoff, captop,
+                'Strop = {:6.3g}'.format(captop), va='center')
     
+   
     def draw_spectrogram(spectrogram, dynamic_range=70):
         X, Y = spectrogram.x_grid(), spectrogram.y_grid()
         sg_db = 10 * np.log10(spectrogram.values)
@@ -134,7 +129,7 @@ for i in range (0,10000):
     boxplot = value.boxplot(pitch_values.T)
     make_labels(value, boxplot)
     plt.grid(False)
-    plt.ylim(0, 400)
+    plt.ylim(0, 800)
     # plt.show()
     plt.savefig("./rozsekane/PilottoATC/grafy/BPfund{}.png".format(x))
 
