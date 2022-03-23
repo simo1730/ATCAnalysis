@@ -4,12 +4,7 @@ import re
 txt = open("bos.txt",'r')
 
 log = txt.read()
-# match specific regex patternß for formated time
-# STILL HAVE TO FIND OUT, HOW TO INCLUDE DIRECTION
-#matches = re.findall(r'(TIMES \d+(?:\.\d+ )\d+(?:\.\d+)?)',text)
-#matches = re.findall(r'(FROM F)',text)
-#matches = re.findall(r'(TIMES \d+(?:\.\d+ )\d+(?:\.\d+)?)',text)
-
+# match specific regex patterns for formated time
 
 re1 = r'(FROM F\d)'
 re2 = r'(TO F\d)'

@@ -22,22 +22,12 @@ for i in range (0,1):
     # plt.show()
     plt.savefig("./rozsekane/PilottoATC/grafy/fqpert{}.png".format(x))
     
-    def make_labels(value, boxplot):
+    def make_labels_f0(value, boxplot):
 
         # Grab the relevant Line2D instances from the boxplot dictionary
         boxes = boxplot['boxes'][0]
         caps = boxplot['caps']
         med = boxplot['medians'][0]
-
-        # The x position of the median line
-        xpos = med.get_xdata()
-
-        # Lets make the text have a horizontal offset which is some 
-        # fraction of the width of the box
-        xoff = 0.8 * (xpos[1] - xpos[0])
-
-        # The x position of the labels
-        xlabel = xpos[1] + xoff
 
         # The median is the y-position of the median line
         median = med.get_ydata()[1]
@@ -52,16 +42,47 @@ for i in range (0,1):
         captop = caps[1].get_ydata()[0]
 
         # Make some labels on the figure using the values derived above
-        value.text(xlabel + 6.3*xoff, median,
+        value.text(1.1, 300,
                 'Median = {:6.3g}'.format(median), va='center')
-        value.text(xlabel + 9*xoff, pc25,
-                'Spodny percentil = {:6.3g}'.format(pc25), va='center')
-        value.text(xlabel + 3*xoff, pc75,
-                'Vrchny percentil = {:6.3g}'.format(pc75), va='center')
-        value.text(xlabel, capbottom,
-                'Spodok = {:6.3g}'.format(capbottom), va='center')
-        value.text(xlabel + 12*xoff, captop,
-                'Strop = {:6.3g}'.format(captop), va='center')
+        value.text(1.1, 200,
+                'Spodný percentil = {:6.3g}'.format(pc25), va='center')
+        value.text(1.1, 400,
+                'Vrchný percentil = {:6.3g}'.format(pc75), va='center')
+        value.text(1.1, 100,
+                'Spodná hodnota = {:6.3g}'.format(capbottom), va='center')
+        value.text(1.1, 500,
+                'Vrchná hodnota = {:6.3g}'.format(captop), va='center')
+        
+    def make_labels_int(value, boxplot):
+
+        # Grab the relevant Line2D instances from the boxplot dictionary
+        boxes = boxplot['boxes'][0]
+        caps = boxplot['caps']
+        med = boxplot['medians'][0]
+
+        # The median is the y-position of the median line
+        median = med.get_ydata()[1]
+
+        # The 25th and 75th percentiles are found from the
+        # top and bottom (max and min) of the box
+        pc25 = boxes.get_ydata().min()
+        pc75 = boxes.get_ydata().max()
+
+        # The caps give the vertical position of the ends of the whiskers
+        capbottom = caps[0].get_ydata()[0]
+        captop = caps[1].get_ydata()[0]
+
+        # Make some labels on the figure using the values derived above
+        value.text(1.1, 60,
+                'Median = {:6.3g}'.format(median), va='center')
+        value.text(1.1, 50,
+                'Spodný percentil = {:6.3g}'.format(pc25), va='center')
+        value.text(1.1, 70,
+                'Vrchný percentil = {:6.3g}'.format(pc75), va='center')
+        value.text(1.1, 40,
+                'Spodná hodnota = {:6.3g}'.format(capbottom), va='center')
+        value.text(1.1, 80,
+                'Vrchná hodnota = {:6.3g}'.format(captop), va='center')
     
    
     def draw_spectrogram(spectrogram, dynamic_range=70):
@@ -91,9 +112,10 @@ for i in range (0,1):
     plt.figure()
     fig, value = plt.subplots()
     boxplot = value.boxplot(intensity.values.T, 1)
-    make_labels(value, boxplot)
+    make_labels_int(value, boxplot)
     plt.grid(False)
     plt.ylim(30,100)
+    plt.ylabel("intensity [dB]")
     # plt.show()
     plt.savefig("./rozsekane/PilottoATC/grafy/BPint{}.png".format(x))
     
@@ -127,9 +149,10 @@ for i in range (0,1):
     plt.figure()
     fig, value = plt.subplots()
     boxplot = value.boxplot(pitch_values.T)
-    make_labels(value, boxplot)
+    make_labels_f0(value, boxplot)
     plt.grid(False)
     plt.ylim(0, 800)
+    plt.ylabel("fundamental frequency [Hz]")
     # plt.show()
     plt.savefig("./rozsekane/PilottoATC/grafy/BPfund{}.png".format(x))
 
