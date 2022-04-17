@@ -1,5 +1,5 @@
+#skript citajuci range suborov v priecinku a exportujuci grafy spektra, intenzity, kontur f0 a ich boxploty
 import parselmouth
-
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -23,56 +23,42 @@ for i in range (0,1):
     plt.savefig("./rozsekane/ATCtoPilot/grafy/fqpert{}.png".format(x))
     
     def make_labels_f0(value, boxplot):
-
-        # Grab the relevant Line2D instances from the boxplot dictionary
         boxes = boxplot['boxes'][0]
         caps = boxplot['caps']
         med = boxplot['medians'][0]
 
-        # The median is the y-position of the median line
         median = med.get_ydata()[1]
 
-        # The 25th and 75th percentiles are found from the
-        # top and bottom (max and min) of the box
         pc25 = boxes.get_ydata().min()
         pc75 = boxes.get_ydata().max()
 
-        # The caps give the vertical position of the ends of the whiskers
         capbottom = caps[0].get_ydata()[0]
         captop = caps[1].get_ydata()[0]
 
-        # Make some labels on the figure using the values derived above
-        value.text(1.1, 300,
+        value.text(1.1, 80,
                 'Median = {:6.3g}'.format(median), va='center')
-        value.text(1.1, 200,
+        value.text(1.1, 60,
                 'Spodný percentil = {:6.3g}'.format(pc25), va='center')
-        value.text(1.1, 400,
-                'Vrchný percentil = {:6.3g}'.format(pc75), va='center')
         value.text(1.1, 100,
+                'Vrchný percentil = {:6.3g}'.format(pc75), va='center')
+        value.text(1.1, 40,
                 'Spodná hodnota = {:6.3g}'.format(capbottom), va='center')
-        value.text(1.1, 500,
+        value.text(1.1, 120,
                 'Vrchná hodnota = {:6.3g}'.format(captop), va='center')
         
     def make_labels_int(value, boxplot):
-
-        # Grab the relevant Line2D instances from the boxplot dictionary
         boxes = boxplot['boxes'][0]
         caps = boxplot['caps']
         med = boxplot['medians'][0]
 
-        # The median is the y-position of the median line
         median = med.get_ydata()[1]
 
-        # The 25th and 75th percentiles are found from the
-        # top and bottom (max and min) of the box
         pc25 = boxes.get_ydata().min()
         pc75 = boxes.get_ydata().max()
 
-        # The caps give the vertical position of the ends of the whiskers
         capbottom = caps[0].get_ydata()[0]
         captop = caps[1].get_ydata()[0]
 
-        # Make some labels on the figure using the values derived above
         value.text(1.1, 60,
                 'Median = {:6.3g}'.format(median), va='center')
         value.text(1.1, 50,
@@ -120,14 +106,12 @@ for i in range (0,1):
     plt.savefig("./rozsekane/ATCtoPilot/grafy/BPint{}.png".format(x))
     
     def draw_pitch(pitch):
-        # Extract selected pitch contour, and
-        # replace unvoiced samples by NaN to not plot
         pitch_values = pitch.selected_array['frequency']
         pitch_values[pitch_values==0] = np.nan
         plt.plot(pitch.xs(), pitch_values, 'o', markersize=5, color='w')
         plt.plot(pitch.xs(), pitch_values, 'o', markersize=2)
         plt.grid(False)
-        plt.ylim(0, pitch.ceiling)
+        plt.ylim(0, 230)
         plt.ylabel("fundamental frequency [Hz]")
     
     pitch = snd.to_pitch()
@@ -148,10 +132,10 @@ for i in range (0,1):
     pitch_values = pitch_values[pitch_values != 0]
     plt.figure()
     fig, value = plt.subplots()
-    boxplot = value.boxplot(pitch_values.T)
+    boxplot = value.boxplot([x for x in pitch_values.T if x <= 230])
     make_labels_f0(value, boxplot)
     plt.grid(False)
-    plt.ylim(0, 800)
+    plt.ylim(0, 230)
     plt.ylabel("fundamental frequency [Hz]")
     # plt.show()
     plt.savefig("./rozsekane/ATCtoPilot/grafy/BPfund{}.png".format(x))

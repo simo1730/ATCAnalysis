@@ -1,3 +1,4 @@
+#skript urceny na fragmentaciu kompletneho suboru komunikacie
 from pydub import AudioSegment
 x=0
 

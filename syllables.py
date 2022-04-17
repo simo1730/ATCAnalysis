@@ -1,3 +1,4 @@
+#skript ktory formatuje povodny prepis komunikacie a upravi ho potrebne na extrakciu slabik a nasledne urcovanie tempa
 import re
 
 # opening .txt file and reading data

@@ -1,3 +1,4 @@
+#skript upravujuci prepis komunikacie len na potrebne fragmenty udajov 'smer' a 'timestamps'
 import re
 
 # opening .txt file and reading data
