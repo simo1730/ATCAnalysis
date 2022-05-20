@@ -1,7 +1,4 @@
-#skript na extrekaciu slabik z textu #WIP
-#WIP
-#WIP
-#WIP
+#skript na extrekaciu slabik z textu
 from nltk.corpus import cmudict
 import string
 phoneme_dict = dict(cmudict.entries())
@@ -17,5 +14,5 @@ def syllables_in_text(text):
                 for word in text.split()])                            
 
 
-text = ("Hello, how are you?")
+text = ("")
 print(syllables_in_text(text.lower()))

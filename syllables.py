@@ -31,3 +31,12 @@ f2=open("syllablestextformatted.txt","w+")
 f2.write(input)
 f1.close()
 f2.close()
+
+# PA = open("syllablestextformatted.txt",'r')
+# match = re.findall(r'FROM F1(.*?)TO F1', PA).group(1)
+# print (match.group(1))
+
+with open("syllablestextformatted.txt","r",encoding="utf-8") as f:
+     PA=f.read()
+     match = re.findall(r'FROM F1(.*?)TO F1', PA).group(1)
+     print (match.group(1))

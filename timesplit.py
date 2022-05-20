@@ -15,7 +15,7 @@ with open('stampsfromatted.txt') as f:
            var2 = var2 * 1000
            newAudio = AudioSegment.from_wav("bos.wav")
            newAudio = newAudio[var1:var2]
-           output = "./rozsekane/ATCtoPilot/{}.wav".format(x)
+           output = "./rozsekane/PilottoATC/{}.wav".format(x)
            newAudio.export(output, format="wav")
 
 x=0        
@@ -33,7 +33,7 @@ with open('stampsfromatted.txt') as f:
            var2 = var2 * 1000
            newAudio = AudioSegment.from_wav("bos.wav")
            newAudio = newAudio[var1:var2]
-           output = "./rozsekane/PilottoATC/{}.wav".format(x)
+           output = "./rozsekane/ATCtoPilot/{}.wav".format(x)
            newAudio.export(output, format="wav")
 
 
