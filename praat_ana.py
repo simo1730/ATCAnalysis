@@ -21,22 +21,22 @@ f = open("tempoformatted.txt","r")
 tempos = []
 
 for line in f:
-    if line.startswith('AP1'):
+    if line.startswith('PA1'):
         tempoline = next(f)
         tempo = float(tempoline)
         tempos.append(tempo)  
 
-for i in range (0,500):
+for i in range (0,6):
     x=x+1
-    nazov_suboru = "./rozsekane/ATCtoPilot/{}.wav".format(x)
+    nazov_suboru = "./rozsekane/PilottoATC/{}.wav".format(x)
     snd = parselmouth.Sound(nazov_suboru)
     plt.figure()
     plt.plot(snd.xs(), snd.values.T)
     plt.xlim([snd.xmin, snd.xmax])
-    plt.xlabel("time [s]")
-    plt.ylabel("amplitude")
+    plt.xlabel("čas [s]")
+    plt.ylabel("amplitúda")
     # plt.show()
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/fqpert{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/fqpert{}.png".format(x))
     
     def make_labels_f0(value, boxplot):
         boxes = boxplot['boxes'][0]
@@ -92,15 +92,15 @@ for i in range (0,500):
         sg_db = 10 * np.log10(spectrogram.values)
         plt.pcolormesh(X, Y, sg_db, vmin=sg_db.max() - dynamic_range, cmap='afmhot')
         plt.ylim([spectrogram.ymin, spectrogram.ymax])
-        plt.xlabel("time [s]")
-        plt.ylabel("frequency [Hz]")
+        plt.xlabel("čas [s]")
+        plt.ylabel("frekvencia [Hz]")
     
     def draw_intensity(intensity):
         plt.plot(intensity.xs(), intensity.values.T, linewidth=3, color='w')
         plt.plot(intensity.xs(), intensity.values.T, linewidth=1)
         plt.grid(False)
         plt.ylim(0)
-        plt.ylabel("intensity [dB]")
+        plt.ylabel("intenzita [dB]")
     
     intensity = snd.to_intensity()
     spectrogram = snd.to_spectrogram()
@@ -110,16 +110,16 @@ for i in range (0,500):
     draw_intensity(intensity)
     plt.xlim([snd.xmin, snd.xmax])
     #plt.show()
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/int{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/int{}.png".format(x))
     plt.figure()
     fig, value = plt.subplots()
     boxplot = value.boxplot(intensity.values.T, 1)
     make_labels_int(value, boxplot)
     plt.grid(False)
     plt.ylim(30,100)
-    plt.ylabel("intensity [dB]")
+    plt.ylabel("intenzita [dB]")
     # plt.show()
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/BPint{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/BPint{}.png".format(x))
     
     def draw_pitch(pitch):
         pitch_values = pitch.selected_array['frequency']
@@ -128,7 +128,7 @@ for i in range (0,500):
         plt.plot(pitch.xs(), pitch_values, 'o', markersize=2)
         plt.grid(False)
         plt.ylim(0, 230)
-        plt.ylabel("fundamental frequency [Hz]")
+        plt.ylabel("základná frekvencia [Hz]")
     
     pitch = snd.to_pitch()
     
@@ -142,7 +142,7 @@ for i in range (0,500):
     draw_pitch(pitch)
     plt.xlim([snd.xmin, snd.xmax])
     #plt.show()
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/fund{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/fund{}.png".format(x))
     
     pitch_values = pitch.selected_array['frequency']
     pitch_values = pitch_values[pitch_values != 0]
@@ -152,9 +152,9 @@ for i in range (0,500):
     make_labels_f0(value, boxplot)
     plt.grid(False)
     plt.ylim(0, 230)
-    plt.ylabel("fundamental frequency [Hz]")
+    plt.ylabel("základná frekvencia [Hz]")
     # plt.show()
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/BPfund{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/BPfund{}.png".format(x))
     
     y, sr = librosa.load(nazov_suboru)
     D = librosa.stft(y)
@@ -166,22 +166,22 @@ for i in range (0,500):
                                    ax=ax)
     ax.set(title='Spectrogram')
     fig.colorbar(img, ax=ax, format="%+2.f dB")
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/Spect{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/Spect{}.png".format(x))
 
     [v, t] = pyACA.computeFeatureCl(nazov_suboru, "SpectralCentroid")
     plt.figure()
-    plt.xlabel("time [s]")
+    plt.xlabel("čas [s]")
     plt.ylabel("centroid [Hz]")
     plt.plot(t,v)
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/Centroid{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/Centroid{}.png".format(x))
 
 
     [v, t] = pyACA.computeFeatureCl(nazov_suboru, "SpectralSlope")
     plt.figure()
-    plt.xlabel("time [s]")
-    plt.ylabel("slope [Hz]")
+    plt.xlabel("čas [s]")
+    plt.ylabel("sklon [Hz]")
     plt.plot(t,v)
-    plt.savefig("./rozsekane/ATCtoPilot/grafy/Slope{}.png".format(x))
+    plt.savefig("./rozsekane/PilottoATC/grafy/Slope{}.png".format(x))
     
         
     
@@ -201,9 +201,9 @@ for i in range (0,500):
     centroid = np.mean(t)
     tempo = tempos[i]
     dct = {
-        "Intensidy Mean": intMean,
-        "Intensidy Max": intMax,
-        "Intensidy Min": intMin,
+        "Intensity Mean": intMean,
+        "Intensity Max": intMax,
+        "Intensity Min": intMin,
         "Intensity STD": intStd,
         "F0 Mean": f0Mean,
         "F0 Max": f0Max,

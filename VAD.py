@@ -9,7 +9,6 @@ plt.rcParams.update({'figure.max_open_warning': 0})
 sns.set()
 plt.rcParams['figure.dpi'] = 100 
 x = 0
-
 vad = webrtcvad.Vad()
 vad.set_mode(0) #MOD 2!!!!!!!!!!!!!
 sample_rate = 8000
@@ -24,7 +23,7 @@ longest_pauses = []
 longest_speeches = []
 s2prs = []
 
-for i in range (0,528):
+for i in range (0,1):
     ### 000 okno ticha napr. sek polsek. prah kolko 0 je alebo neni rec
     x=x+1
     two_bytes = False
@@ -38,7 +37,7 @@ for i in range (0,528):
     false_frames = 0
     
     
-    with open(("./rozsekane/PilottoATC/{}gate.wav".format(x)), "rb") as f:
+    with open(("./rozsekane/ATCtoPilot/{}gate.wav".format(x)), "rb") as f:
         while (byte := f.read(1)):
             byte_cache += byte
             
@@ -69,80 +68,48 @@ for i in range (0,528):
                 # print(f"Contains speech: { speech_present } ")
                 byte_cache = b""
                 dct1 = {
-                    "Frame": frames,
-                    "Voice Detected": speech_present}
+                    "čas [s]": frames,
+                    "detekovaná reč": speech_present}
                 database = database.append(dct1, ignore_index=True)
     
             two_bytes = not two_bytes
             
     s2pr = true_frames / false_frames
-    s2prs.append(s2pr)
-    longest_speeches.append(longest_speech)
-    longest_pauses.append(longest_pause)
-
+    # s2prs.append(s2pr)
+    # longest_speeches.append(longest_speech)
+    # longest_pauses.append(longest_pause)
 
     print(f"True: {true_frames}")
     print(f"False: {false_frames}")
     print(frames)
     print(database)
     
-    nazov_suboru = "./rozsekane/PilottoATC/{}.wav".format(x)
+    nazov_suboru = "./rozsekane/ATCtoPilot/{}.wav".format(x)
     snd = parselmouth.Sound(nazov_suboru)
     plt.figure()
     plt.plot(snd.xs(), snd.values.T)
     plt.xlim([snd.xmin, snd.xmax])
-    plt.xlabel("time [s]")
-    plt.ylabel("amplitude")
-    
+    plt.xlabel("čas [s]")
+    plt.ylabel("amplitúda")
     
     ax = plt.gca()
     ax.grid(False)
-    database.plot(kind='line',x='Frame',y='Voice Detected',ax=ax, linewidth=1, color='r')
+    database.plot(kind='line',x='čas [s]',y='detekovaná reč',ax=ax, linewidth=1, color='r')
     plt.show()
+    
+    matrixdata = pd.read_csv('matrixdata.csv')
+    dct = {
+        "Longest Speech": longest_speech,
+        "Longest Pause": longest_pause,
+        "s2pr": s2pr,
+        }
+
+    print(longest_speech)
+    print(longest_pause)
+
+    print (matrixdata)
+
+    matrixdata = matrixdata.append(dct, ignore_index=True)
 
 
-
-
-
-# with open('matrixdata.csv', 'w') as csvoutput:
-#     writer = csv.writer(csvoutput, lineterminator='\n')
-
-#     all = []
-#     row = next(reader)
-#     row.append('Berry')
-#     all.append(row)
-
-#     for row in reader:
-#         row.append(row[0])
-#         all.append(row)
-
-#     writer.writerows(all)
-
-
-
-
-
-matrixdata = pd.read_csv('matrixdata.csv')
-matrixdata["longest speech"] = longest_speeches
-matrixdata["longest pause"] = longest_pauses
-matrixdata["s2pr"] = s2prs
-
-# matrixdata = matrixdata.reset_index()  # make sure indexes pair with number of rows
-# for index, row in matrixdata.iterrows():
-#     row['longest speech'] = longest_speech
-#     row['longest pause'] = longest_pause
-
-print(longest_speech)
-print(longest_pause)
-
-print (matrixdata)
-
-matrixdata = matrixdata.append(dct1, ignore_index=True)
-
-
-matrixdata.to_csv('matrixdata.csv')
-
-# plt.plot([0, frames], 1, 'ro')
-# # plt.axis([0, 6, 0, 20])
-# plt.ylabel('some numbers')
-# plt.show()
+    matrixdata.to_csv('matrixdata.csv')
